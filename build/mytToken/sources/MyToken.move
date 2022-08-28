@@ -7,15 +7,16 @@ module MyTokenAddr::MyToken {
      struct MyToken has copy, drop, store {
         
       }
+      struct WithDrawCap has key{
+            withdraw_cap :WithdrawCapability
+      }
       struct MyTokenExtInfo has key {
             name:vector<u8>,
             symbol:vector<u8>,
             description:vector<u8>,
             logo:vector<u8>
       }
-      struct WithDrawCap has key{
-            withdraw_cap :WithdrawCapability
-      }
+
       struct SwapEvent has drop ,store{
          sender:address,
          amount:u128
@@ -26,6 +27,7 @@ module MyTokenAddr::MyToken {
 
      const ERR_NOT_ADMIN:u64 = 1;
      const ERR_INSUFFICIENT_BALANCE:u64 = 2;
+
      public(script) fun init(admin: signer,name:vector<u8>,symbol:vector<u8>,description:vector<u8>,logo:vector<u8>)  {
          let admin_address = Signer::address_of(&admin);
          // Event::publish_generator(&admin);
@@ -50,9 +52,9 @@ module MyTokenAddr::MyToken {
      public(script) fun mint(account: signer,receiver:address, amount: u128) {
         let admin_address = Signer::address_of(&account);
         assert!(admin_address== @MyTokenAddr,ERR_NOT_ADMIN);
-      //   if(!Account::is_accepts_token<MyToken>(admin_address)){
-      //       Account::do_accept_token<MyToken>(&account);
-      //   };
+         if(!Account::is_accepts_token<MyToken>(admin_address)){
+            Account::do_accept_token<MyToken>(&account);
+        };
         let token = Token::mint<MyToken>(&account, amount);
         Account::deposit<MyToken>(receiver, token);
      }
