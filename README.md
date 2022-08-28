@@ -141,7 +141,7 @@ account execute-function --function 0x1641b99d5c1a94bfcbb538fc9a89c6d8::XUSDT::i
 向合约账户里存入2200个XUSDT
 account execute-function --function 0x1641b99d5c1a94bfcbb538fc9a89c6d8::XUSDT::mint -s 0x1641b99d5c1a94bfcbb538fc9a89c6d8 --arg  0x1641b99d5c1a94bfcbb538fc9a89c6d8 --arg 2200u128  -b
 ```
-### 5.2
+### 5.2 MyToken铸造和兑换
 ```
 初始化MyToken
 account execute-function --function 0x1641b99d5c1a94bfcbb538fc9a89c6d8::MyToken::init -s 0x1641b99d5c1a94bfcbb
